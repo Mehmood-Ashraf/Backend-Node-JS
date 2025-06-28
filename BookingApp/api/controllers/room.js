@@ -17,7 +17,7 @@ export const createRoom = async (req, res, next) => {
             next(err)
         }
 
-        res.status(201).json(savedRoom)
+        res.status(200).json(savedRoom)
     }catch(err){
         next(err)
     }
