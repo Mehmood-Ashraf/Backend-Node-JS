@@ -11,27 +11,42 @@ import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import SettingsSystemDaydreamOutlinedIcon from "@mui/icons-material/SettingsSystemDaydreamOutlined";
 import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
+import axios from "axios";
 
 const Sidebar = () => {
   const { dispatch } = useContext(DarkModeContext);
+  const navigate = useNavigate()
+
+  const logoutHandler = async () => {
+    try {
+      await axios.post("/auth/logout", {}, {withCredentials : true});
+    } catch (error) {
+      console.log("Logout Error",error)
+    }
+
+    localStorage.removeItem("user")
+    navigate("/login")
+  };
   return (
     <div className="sidebar">
       <div className="top">
         <Link to="/" style={{ textDecoration: "none" }}>
-          <span className="logo">lamadmin</span>
+          <span className="logo">Booking App Admin</span>
         </Link>
       </div>
       <hr />
       <div className="center">
         <ul>
           <p className="title">MAIN</p>
-          <li>
-            <DashboardIcon className="icon" />
-            <span>Dashboard</span>
-          </li>
+          <Link to={"/"} style={{ textDecoration: "none" }}>
+            <li>
+              <DashboardIcon className="icon" />
+              <span>Dashboard</span>
+            </li>
+          </Link>
           <p className="title">LISTS</p>
           <Link to="/users" style={{ textDecoration: "none" }}>
             <li>
@@ -84,7 +99,7 @@ const Sidebar = () => {
           </li>
           <li>
             <ExitToAppIcon className="icon" />
-            <span>Logout</span>
+            <span onClick={logoutHandler}>Logout</span>
           </li>
         </ul>
       </div>

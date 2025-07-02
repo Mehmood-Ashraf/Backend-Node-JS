@@ -32,7 +32,9 @@ const New = ({ inputs, title }) => {
       }
 
       await axios.post("/auth/register", newUser)
+      alert("User Created")
     } catch (error) {
+      alert(error.response.data.message)
       console.log(error);
     }
   };

@@ -19,8 +19,10 @@ export const register = async (req, res, next) => {
     await newUser.save();
     res.status(201).send("User has been created.");
   } catch (err) {
-    console.error("Registration Error", err.code)
-    res.status(500).json(err);
+    if(err.code === 11000){
+      return res.status(400).json({message : "User already Exist"})
+    }
+    res.status(500).json({error : err.message, message : "Something went wrong"});
   }
 };
 
@@ -51,3 +53,12 @@ export const login = async (req, res, next) => {
     res.status(500).json(err);
   }
 };
+
+
+export const logout = async(req, res) => {
+  res.clearCookie("access_token", {
+    httpOnly : true,
+    secure : false,
+    sameSite : "lax"
+  }).status(200).json("User logged out")
+}

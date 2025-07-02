@@ -6,8 +6,16 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import useFetch from "../../hooks/useFetch";
+import { useState } from "react";
 
 const List = () => {
+  const [users, setUsers] = useState([])  
+
+  const {data, loading, error} = useFetch('/users')
+  // console.log(data)
+
+
   const rows = [
     {
       id: 1143155,
@@ -60,6 +68,7 @@ const List = () => {
       status: "Pending",
     },
   ];
+
   return (
     <TableContainer component={Paper} className="table">
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
